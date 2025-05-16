@@ -1,6 +1,6 @@
-# PlaceFinder
+# PostalCodeSearch
 
-PlaceFinder is a FastAPI application that allows users to search for postal codes in Nepal. It provides an API to search for places by name or postal code, manage a list of favorite places, and potentially other location-based services.
+PostalCodeDearch is a FastAPI application that allows users to search for postal codes in Nepal. It provides an API to search for places by name or postal code, manage a list of favorite places, and potentially other location-based services.
 
 ## Features
 
@@ -107,3 +107,11 @@ To run tests:
 PYTHONPATH=. pytest
 ```
 (The `PYTHONPATH=.` is important if running from the `placefinder` root, so that `app.main` can be found by the tests. The CI workflow uses `PYTHONPATH=placefinder pytest` which assumes running from one directory above `placefinder` or that `placefinder` is in the python path).
+
+![SCREENSHOT_2025-05-16_08-47-22](https://github.com/user-attachments/assets/dc41111f-7e16-4b39-b468-7fab936e30d3)
+
+![SCREENSHOT_2025-05-16_08-47-36](https://github.com/user-attachments/assets/60388690-bf3f-4bb0-a83d-b9c626d7c609)
+
+![SCREENSHOT_2025-05-16_08-47-45](https://github.com/user-attachments/assets/ba51ac4a-2b91-401d-a3b3-0a17844015a3)
+
+![SCREENSHOT_2025-05-16_08-47-57](https://github.com/user-attachments/assets/bb456fa9-d151-418e-898c-3410f58e30ff)

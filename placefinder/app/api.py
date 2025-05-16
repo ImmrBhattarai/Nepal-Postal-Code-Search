@@ -154,7 +154,7 @@ async def search(
         or q_lower in (item["district"] or "").lower()
         or q_lower in (item["postal_code"] or "")
     ]
-    filtered = filtered[offset: offset + limit]
+    filtered = filtered[offset : offset + limit]
     return JSONResponse(content=filtered)
 
 
@@ -199,10 +199,11 @@ async def autocomplete(
 async def get_favorites(request: Request, _=Depends(rate_limiter)):
     user_id = request.client.host
     with get_db() as conn:
-        rows = conn.execute(
-            "SELECT name, postal_code, lat, lon, district FROM favorites WHERE user_id = ?",
-            (user_id,),
-        ).fetchall()
+        sql_query_favorites = (
+            "SELECT name, postal_code, lat, lon, district "
+            "FROM favorites WHERE user_id = ?"
+        )
+        rows = conn.execute(sql_query_favorites, (user_id,)).fetchall()
         favs = [
             dict(zip(["name", "postal_code", "lat", "lon", "district"], row))
             for row in rows
@@ -221,13 +222,19 @@ async def add_favorite(
 ):
     user_id = request.client.host
     with get_db() as conn:
+        sql_check_exists = (
+            "SELECT 1 FROM favorites WHERE user_id = ? AND postal_code = ?"
+        )
         exists = conn.execute(
-            "SELECT 1 FROM favorites WHERE user_id = ? AND postal_code = ?",
-            (user_id, item.get("postal_code")),
+            sql_check_exists, (user_id, item.get("postal_code"))
         ).fetchone()
         if not exists:
+            sql_insert_favorite = (
+                "INSERT INTO favorites (user_id, name, postal_code, lat, lon, "
+                "district) VALUES (?, ?, ?, ?, ?, ?)"
+            )
             conn.execute(
-                "INSERT INTO favorites (user_id, name, postal_code, lat, lon, district) VALUES (?, ?, ?, ?, ?, ?)",
+                sql_insert_favorite,
                 (
                     user_id,
                     item.get("name"),
@@ -238,10 +245,11 @@ async def add_favorite(
                 ),
             )
             conn.commit()
-        rows = conn.execute(
-            "SELECT name, postal_code, lat, lon, district FROM favorites WHERE user_id = ?",
-            (user_id,),
-        ).fetchall()
+        sql_query_favorites = (
+            "SELECT name, postal_code, lat, lon, district "
+            "FROM favorites WHERE user_id = ?"
+        )
+        rows = conn.execute(sql_query_favorites, (user_id,)).fetchall()
         favs = [
             dict(zip(["name", "postal_code", "lat", "lon", "district"], row))
             for row in rows
@@ -257,15 +265,16 @@ async def remove_favorite(
 ):
     user_id = request.client.host
     with get_db() as conn:
-        conn.execute(
-            "DELETE FROM favorites WHERE user_id = ? AND postal_code = ?",
-            (user_id, postal_code),
+        sql_delete_favorite = (
+            "DELETE FROM favorites WHERE user_id = ? AND postal_code = ?"
         )
+        conn.execute(sql_delete_favorite, (user_id, postal_code))
         conn.commit()
-        rows = conn.execute(
-            "SELECT name, postal_code, lat, lon, district FROM favorites WHERE user_id = ?",
-            (user_id,),
-        ).fetchall()
+        sql_query_favorites = (
+            "SELECT name, postal_code, lat, lon, district "
+            "FROM favorites WHERE user_id = ?"
+        )
+        rows = conn.execute(sql_query_favorites, (user_id,)).fetchall()
         favs = [
             dict(zip(["name", "postal_code", "lat", "lon", "district"], row))
             for row in rows
@@ -406,7 +415,7 @@ async def search_advanced(
     reverse = sort_order == "desc"
     if sort_by in ["name", "postal_code", "district"]:
         filtered.sort(key=lambda x: (x.get(sort_by) or "").lower(), reverse=reverse)
-    filtered = filtered[offset: offset + limit]
+    filtered = filtered[offset : offset + limit]
     return JSONResponse(content=filtered)
 
 

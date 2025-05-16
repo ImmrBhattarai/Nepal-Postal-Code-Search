@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Change to the directory where Dockerfile is located
+cd "$(dirname "$0")" || exit
+
 # Build Docker image
 docker build -t placefinder .
 

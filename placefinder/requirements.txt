@@ -4,3 +4,4 @@ requests
 jinja2
 python-dotenv
 httpx
+pytest>=7.0.0

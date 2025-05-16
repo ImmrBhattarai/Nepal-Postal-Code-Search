@@ -23,15 +23,15 @@ jobs:
         python -m pip install pytest
         python -m pip install -r placefinder/requirements.txt
 
-    - name: Check pytest installation
+    - name: Debug pytest installation
       run: |
         python -m pip show pytest
-        which pytest || echo "pytest not found in PATH"
-        python -m pytest --version
+        which pytest || echo "pytest not in PATH"
+        python -m pytest --version || echo "python -m pytest failed"
 
     - name: Run tests
       run: |
-        PYTHONPATH=placefinder python -m pytest
+       PYTHONPATH=placefinder python -m pytest
 
     - name: Build Docker image
       run: |

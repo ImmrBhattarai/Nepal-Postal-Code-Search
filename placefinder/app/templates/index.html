@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Postal Code Finder</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center px-4 w-full h-full">
+  <div class="w-full max-w-4xl bg-white p-10 rounded-2xl shadow-md min-h-[80vh] flex flex-col justify-center">
+    <h2 class="text-4xl font-bold text-center mb-8">Search Postal Code (Nepal)</h2>
+    <div class="flex flex-col md:flex-row gap-2 mb-4 items-center w-full">
+      <input
+        type="text"
+        id="searchBox"
+        placeholder="Enter a place..."
+        class="flex-1 border border-gray-300 px-6 py-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg min-w-0"
+        aria-label="Search for a place"
+      />
+      <button
+        id="searchBtn"
+        class="bg-blue-500 text-white px-6 py-4 rounded-lg hover:bg-blue-600 transition text-lg"
+        aria-label="Search"
+      >
+        Search
+      </button>
+      <button
+        id="clearBtn"
+        class="bg-gray-200 text-gray-700 px-6 py-4 rounded-lg hover:bg-gray-300 transition text-lg ml-0 md:ml-2"
+        aria-label="Clear search and results"
+      >
+        Clear
+      </button>
+    </div>
+    <div id="recentSearches" class="mb-4"></div>
+    <div id="favorites" class="mb-4"></div>
+    <div id="loading" class="text-center text-blue-500 hidden text-lg">Loading...</div>
+    <div id="noResults" class="text-center text-gray-500 hidden text-lg">No results found.</div>
+    <button id="exportBtn" class="bg-green-500 text-white px-6 py-4 rounded-lg hover:bg-green-600 transition w-full mb-4 text-lg" aria-label="Export results as CSV">Export as CSV</button>
+    <ul id="suggestions" class="mt-4 space-y-2 w-full"></ul>
+    <div id="mapContainer" class="mt-4 w-full h-96 hidden"></div>
+  </div>
+  <script src="/static/script.js"></script>
+</body>
+</html>
